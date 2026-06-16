@@ -16,6 +16,9 @@ A React E-Commerce website built using React and Vite.
 ### Contact Page
 ![Contact](screenshots/contact.png)
 
+### AddProduct Page
+![Addproduct](screenshot/addproduct.png)
+
 ## Technologies Used
 
 - React

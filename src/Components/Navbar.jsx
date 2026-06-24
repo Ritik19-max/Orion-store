@@ -1,3 +1,6 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
 export function Navbar() {
 
   const styles = {
@@ -41,6 +44,7 @@ export function Navbar() {
       gap: '30px',
       margin: 0,
       padding: 0,
+      alignItems: 'center',
     },
     navLink: {
       color: '#a6adbb',
@@ -48,6 +52,11 @@ export function Navbar() {
       fontSize: '16px',
       fontWeight: '500',
       transition: 'color 0.3s ease',
+    },
+    rightSection: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '20px',
     },
     searchContainer: {
       display: 'flex',
@@ -67,31 +76,45 @@ export function Navbar() {
       fontSize: '14px',
       width: '100%',
     },
+    btnAddProduct: {
+      background: 'rgba(0, 242, 254, 0.1)',
+      color: '#00f2fe',
+      border: '1px solid #00f2fe',
+      padding: '8px 16px',
+      borderRadius: '12px',
+      fontSize: '14px',
+      fontWeight: '600',
+      textDecoration: 'none',
+      cursor: 'pointer',
+    }
   };
 
   return (
     <nav style={styles.navbar}>
-      {/* Left Side: Logo and Store Name */}
       <div style={styles.logoContainer}>
-      <div><img src= "https://png.pngtree.com/template/20210302/ourmid/pngtree-electronic-shopping-cart-vector-logo-design-idea-image_493511.png" width="30px" height="30px" />  </div>
-      <span style={styles.logoText}>ORION STORE</span>
+        <div><img src="https://png.pngtree.com/template/20210302/ourmid/pngtree-electronic-shopping-cart-vector-logo-design-idea-image_493511.png" width="30px" height="30px" /></div>
+        <span style={styles.logoText}>ORION STORE</span>
       </div>
 
-      {/* Center: Navigation Links */}
       <ul style={styles.navLinks}>
-        <li><a href="home" style={styles.navLink}>Home</a></li>
-        <li><a href="about" style={styles.navLink}>About</a></li>
-        <li><a href="products" style={styles.navLink}>Products</a></li>
-        <li><a href="contact" style={styles.navLink}>Contact</a></li>
+        <li><Link to="/home" style={styles.navLink}>Home</Link></li>
+        <li><Link to="/about" style={styles.navLink}>About</Link></li>
+        <li><Link to="/products" style={styles.navLink}>Products</Link></li>
+        <li><Link to="/contact" style={styles.navLink}>Contact</Link></li>
       </ul>
 
-      {/* Right Side: Search Bar */}
-      <div style={styles.searchContainer}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a6adbb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="text" placeholder="Search gadgets..." style={styles.searchInput} />
+      <div style={styles.rightSection}>
+        <div style={styles.searchContainer}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a6adbb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" placeholder="Search gadgets..." style={styles.searchInput} />
+        </div>
+
+        <Link to="/addproduct" style={styles.btnAddProduct}>
+          + Add Product
+        </Link>
       </div>
     </nav>
   );

@@ -1,4 +1,20 @@
+import React, { useEffect, useState } from 'react';
+import { supabase } from "./supabase";
+
 export function Products() {
+  const [productData, setProductData] = useState([]);
+
+  async function fetchProducts() {
+    const { data } = await supabase.from("Product").select("*");
+    if (data) {
+      setProductData(data);
+    }
+  }
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   const styles = {
     section: {
       fontFamily: '"Segoe UI", Roboto, Helvetica, Arial, sans-serif',
@@ -6,10 +22,8 @@ export function Products() {
       color: '#ffffff',
       padding: '80px 6%',
     },
-    // --- HOVER ANIMATION SHEET INJECTION ---
     animationSheet: (
       <style>{`
-        /* Card Structure Interactive Glow */
         .interactive-product-card {
           transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease !important;
         }
@@ -18,8 +32,6 @@ export function Products() {
           border-color: rgba(0, 242, 254, 0.25) !important;
           box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 242, 254, 0.05) !important;
         }
-
-        /* Product Image Motion Zoom */
         .zoom-product-img {
           transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s ease !important;
         }
@@ -27,8 +39,6 @@ export function Products() {
           transform: scale(1.06);
           filter: drop-shadow(0px 15px 25px rgba(0, 242, 254, 0.2)) !important;
         }
-
-        /* Top Badge Animation Toggle */
         .animated-card-badge {
           transition: transform 0.3s ease, background-color 0.3s ease !important;
         }
@@ -36,8 +46,6 @@ export function Products() {
           transform: scale(1.05) translateX(3px);
           background-color: rgba(0, 242, 254, 0.2) !important;
         }
-
-        /* Action Cart Button Fill Inversion */
         .cart-action-btn {
           transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease !important;
         }
@@ -190,39 +198,10 @@ export function Products() {
     }
   };
 
-  const productData = [
-    { id: 1, name: "Orion SoundPulse Wireless Headphones", price: "$249.00", badge: "Best Seller", rating: "★★★★★", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80" },
-    { id: 2, name: "Orion Chrono Smartwatch Series 5", price: "$199.00", badge: "New Arrival", rating: "★★★★☆", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80" },
-    { id: 3, name: "Orion Nebula Mechanical Keyboard", price: "$129.00", badge: "Trending", rating: "★★★★★", img: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500&q=80" },
-    { id: 4, name: "Orion StreamCam 4K Ultra HD", price: "$159.00", badge: "Premium", rating: "★★★★☆", img: "https://images.unsplash.com/photo-1600856209923-34372e319a5d?w=500&q=80" },
-    
-    { id: 5, name: "Orion Pro ANC Earbuds", price: "$149.00", badge: "Popular", rating: "★★★★★", img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&q=80" },
-    { id: 6, name: "Orion Quantum Gaming Mouse", price: "$89.00", badge: "Gamers Choice", rating: "★★★★☆", img: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=500&q=80" },
-    { id: 7, name: "Orion Horizon Curved Monitor 32\"", price: "$449.00", badge: "Top Rated", rating: "★★★★★", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTleDUi8KjmWSlRE85WWfU0pb-M2c-hyniK8Q&s" },
-    { id: 8, name: "Orion SoundBar Cinema X", price: "$299.00", badge: "Limited", rating: "★★★★☆", img: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=500&q=80" },
-    
-    { id: 9, name: "Orion MagSafe Power Hub", price: "$69.00", badge: "Essential", rating: "★★★★☆", img: "https://www.virginmegastore.ae/medias/674356-main.jpg?context=bWFzdGVyfHJvb3R8NjEwMTV8aW1hZ2UvanBlZ3xhRGd4TDJneE15OHhNRE0xTlRVMU9EY3hNVE15Tmk4Mk56UXpOVFpmWDIxaGFXNHVhbkJufDE4Y2VkYmE2OTE3ZDZjYTcxZGY1MDE1YTViZTk1ODU0MTdmNWVmOGQ5NTFjNGI4Njg3ODIwM2M1MzM2NjY1YWQ" },
-    { id: 10, name: "Orion Drone Phantom View", price: "$799.00", badge: "Pro Gear", rating: "★★★★★", img: "https://images.unsplash.com/photo-1507582020474-9a35b7d455d9?w=500&q=80" },
-    { id: 11, name: "Orion VR Apex Headset", price: "$399.00", badge: "Hot Drop", rating: "★★★★★", img: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=500&q=80" },
-    { id: 12, name: "Orion PureStream Mic Pro", price: "$119.00", badge: "Studio Choice", rating: "★★★★☆", img: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=500&q=80" },
-    
-    { id: 13, name: "Orion ChargePad Duo 15W", price: "$49.00", badge: "Fast Charge", rating: "★★★★☆", img: "https://www.xtorm.eu/cdn/shop/files/Lifestyle_20Image_XW_1.webp?v=1767794392" },
-    { id: 14, name: "Orion Titan Rugged Powerbank", price: "$79.00", badge: "Heavy Duty", rating: "★★★★★", img: "https://cdn.shopify.com/s/files/1/0272/6084/6180/files/promate-titan-130-11_large.png?v=1743596751" },
-    { id: 15, name: "Orion Nova RGB Desk Mat", price: "$35.00", badge: "Sleek Setup", rating: "★★★★☆", img: "https://images.unsplash.com/photo-1616440347437-b1c73416efc2?w=500&q=80" },
-    { id: 16, name: "Orion Pulse Smart Fitness Band", price: "$59.00", badge: "Health Tech", rating: "★★★★★", img: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=500&q=80" },
-    
-    { id: 17, name: "Orion Beam 1080p Mini Projector", price: "$189.00", badge: "Home Cinema", rating: "★★★★☆", img: "https://images.unsplash.com/photo-1535016120720-40c646be5580?w=500&q=80" },
-    { id: 18, name: "Orion Helix Ergonomic Stand", price: "$45.00", badge: "Workstation", rating: "★★★★★", img: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=500&q=80" },
-    { id: 19, name: "Orion PureAir Desk Purifier", price: "$99.00", badge: "Eco Tech", rating: "★★★★☆", img: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=500&q=80" },
-    { id: 20, name: "Orion SoundPod Mini Speaker", price: "$39.00", badge: "Super Bass", rating: "★★★★★", img: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500&q=80" }
-  ];
-
   return (
     <section id="products" style={styles.section}>
-      {/* Inject Interactive Animations Rules */}
       {styles.animationSheet}
 
-      {/* Header Container */}
       <div style={styles.sectionHeader}>
         <div style={styles.titleContainer}>
           <span style={styles.tag}>Premium Selection</span>
@@ -233,29 +212,22 @@ export function Products() {
         </div>
       </div>
 
-      {/* 5 Lines Grid Container (Total 20 Items) */}
       <div style={styles.productGrid}>
         {productData.map((product) => (
           <div key={product.id} className="interactive-product-card" style={styles.card}>
             
-            {/* Custom Dynamic Label Badge with Hover Effects Class */}
-            <span className="animated-card-badge" style={styles.cardBadge}>{product.badge}</span>
+            <span className="animated-card-badge" style={styles.cardBadge}>{product.Badge}</span>
             
-            {/* Centered Image Frame */}
-            <div style={styles.cardImageContainer}>
-              <img className="zoom-product-img" src={product.img} alt={product.name} style={styles.cardImage} />
-            </div>
+            
 
-            {/* Product Meta Info */}
             <div style={styles.infoContainer}>
-              <h3 style={styles.cardTitle}>{product.name}</h3>
+              <h3 style={styles.cardTitle}>{product.Name}</h3>
               
               <div style={styles.priceContainer}>
-                <span style={styles.cardPrice}>{product.price}</span>
-                <span style={styles.rating}>{product.rating}</span>
+                <span style={styles.cardPrice}>{product.Prize}</span>
+                <span style={styles.rating}>{product.Rating}</span>
               </div>
 
-              {/* Action Button with Multi-property Hover Inversion */}
               <button className="cart-action-btn" style={styles.btnSecondary}>
                 <svg style={styles.cartIcon} viewBox="0 0 24 24">
                   <circle cx="9" cy="21" r="1"></circle>

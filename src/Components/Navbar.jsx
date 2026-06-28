@@ -1,7 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { supabase } from '../supabase';
 
-export function Navbar() {
+export function Navbar({ user, setUser }) {
+  const navigate = useNavigate();
+
+  async function handleSignOut() {
+    await supabase.auth.signOut();
+    setUser(null);
+    navigate('/');
+  }
 
   const styles = {
     navbar: {
@@ -86,13 +94,46 @@ export function Navbar() {
       fontWeight: '600',
       textDecoration: 'none',
       cursor: 'pointer',
+    },
+    userEmail: {
+      color: '#a6adbb',
+      fontSize: '14px',
+      fontWeight: '500',
+    },
+    btnSignOut: {
+      background: 'rgba(255, 74, 74, 0.1)',
+      color: '#ff4a4a',
+      border: '1px solid #ff4a4a',
+      padding: '8px 16px',
+      borderRadius: '12px',
+      fontSize: '14px',
+      fontWeight: '600',
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
+    },
+    btnSignIn: {
+      color: '#ffffff',
+      textDecoration: 'none',
+      fontSize: '15px',
+      fontWeight: '600',
+    },
+    btnSignUp: {
+      background: 'linear-gradient(135deg, #00f2fe 0%, #4facfe 100%)',
+      color: '#0a0b10',
+      textDecoration: 'none',
+      padding: '8px 16px',
+      borderRadius: '12px',
+      fontSize: '14px',
+      fontWeight: '700',
     }
   };
 
   return (
     <nav style={styles.navbar}>
       <div style={styles.logoContainer}>
-        <div><img src="https://png.pngtree.com/template/20210302/ourmid/pngtree-electronic-shopping-cart-vector-logo-design-idea-image_493511.png" width="30px" height="30px" /></div>
+        <div>
+          <img src="https://png.pngtree.com/template/20210302/ourmid/pngtree-electronic-shopping-cart-vector-logo-design-idea-image_493511.png" width="30px" height="30px" alt="logo" />
+        </div>
         <span style={styles.logoText}>ORION STORE</span>
       </div>
 
@@ -112,9 +153,27 @@ export function Navbar() {
           <input type="text" placeholder="Search gadgets..." style={styles.searchInput} />
         </div>
 
-        <Link to="/addproduct" style={styles.btnAddProduct}>
-          + Add Product
-        </Link>
+        {/* Dynamic Auth Section Condition */}
+        {user ? (
+          <>
+            <span style={styles.userEmail}>{user.email}</span>
+            <Link to="/addproduct" style={styles.btnAddProduct}>
+              + Add Product
+            </Link>
+            <button onClick={handleSignOut} style={styles.btnSignOut}>
+              Sign out
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" style={styles.btnSignIn}>
+              Sign in
+            </Link>
+            <Link to="/signup" style={styles.btnSignUp}>
+              Sign up
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );

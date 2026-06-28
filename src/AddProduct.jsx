@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "./supabase"; 
 
 export function AddProduct() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
   const [name, setName] = useState("");
   const [prize, setPrize] = useState("");
   const [badge, setBadge] = useState("");
   const [rating, setRating] = useState("★★★★★");
+
+  // 1. Session check karne ke liye useEffect (Mentor logic)
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user ?? null);
+    });
+  }, []);
+
+  // Sign out function
+  async function handleSignOut() {
+    await supabase.auth.signOut();
+    navigate("/products");
+  }
 
   async function submitProduct(e) {
     e.preventDefault(); 
@@ -37,6 +54,17 @@ export function AddProduct() {
   return (
     <div style={{ backgroundColor: '#0a0b10', color: '#ffffff', minHeight: '90vh', display: 'flex', justifyContent: 'center', alignItems: 'center', fontFamily: 'sans-serif', padding: '20px' }}>
       <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '20px', padding: '30px', width: '100%', maxWidth: '400px' }}>
+        
+        {/* 2. Top Header section with user email and Sign out button */}
+        {user && (
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.03)', padding: '10px 15px', borderRadius: '10px', marginBottom: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
+            <span style={{ color: '#a6adbb', fontSize: '13px' }}>{user?.email}</span>
+            <button onClick={handleSignOut} style={{ background: 'transparent', border: '1px solid #ff4a4a', color: '#ff4a4a', padding: '4px 10px', borderRadius: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: '600' }}>
+              Sign out
+            </button>
+          </div>
+        )}
+
         <h2 style={{ color: '#00f2fe', textAlign: 'center', marginBottom: '20px' }}>Add New Product</h2>
         
         <form onSubmit={submitProduct}>

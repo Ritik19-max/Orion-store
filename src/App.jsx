@@ -36,6 +36,7 @@ function App() {
       {/* 1. Navbar ko user state pass kar rahe hain taaki login/logout button dynamic chalein */}
       <Navbar user={user} setUser={setUser} />
       <Routes>
+        <Route path='/' element={<Home/>} />
         <Route path='/home' element={<Home/>} />
         <Route path='/about' element={<About />} />
         <Route path='/products' element={<Products />} />
